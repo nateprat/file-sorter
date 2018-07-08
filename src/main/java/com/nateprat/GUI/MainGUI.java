@@ -61,7 +61,7 @@ public class MainGUI extends JPanel {
     }
 
     public static void GUI() {
-        JFrame frame = new JFrame("File Renamer - NatePrat");
+        JFrame frame = new JFrame("Mass Picture Re-namer");
         frame.setContentPane(new MainGUI().mainPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
