@@ -4,6 +4,7 @@ import com.nateprat.repository.GetFiles;
 import com.nateprat.repository.RenameFiles;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class Main extends AbstractMain {
 
@@ -12,7 +13,6 @@ public class Main extends AbstractMain {
 
     public static void main(String[] args) {
         getFiles.getFiles();
-        File[] listOfFiles = getFiles.getListOfFiles();
-        renameFiles.renameFiles(listOfFiles);
+        renameFiles.renameFiles();
     }
 }

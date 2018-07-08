@@ -3,10 +3,10 @@ package com.nateprat;
 import com.nateprat.repository.GetFiles;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class AbstractMain {
 
-    public static final GetFiles getFiles = new GetFiles();
-
+    public static ArrayList<File> listOfFiles;
 
 }

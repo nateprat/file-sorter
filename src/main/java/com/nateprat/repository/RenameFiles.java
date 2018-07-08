@@ -4,16 +4,17 @@ import com.nateprat.AbstractMain;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class RenameFiles extends AbstractMain {
 
     private static String[] acceptedFileTypes = {"jpg", "png", "gif"};
 
-    public void renameFiles(File[] listOfFiles) {
+    public void renameFiles() {
         boolean pictureFile = false;
-        for (int i = 0; i < listOfFiles.length; i++) {
+        for (int i = 0; i < listOfFiles.size(); i++) {
             // File (or directory) with old name
-            File file = new File(listOfFiles[i].getPath());
+            File file = new File(listOfFiles.get(i).getPath());
 
             // File (or directory) with new name
             String fileExtension = getFileType(file);
@@ -27,7 +28,7 @@ public class RenameFiles extends AbstractMain {
             if (pictureFile) {
 
 
-                File file2 = new File(listOfFiles[i].getParentFile() + "\\steam_pic_" + (i + 1) + "." + fileExtension);
+                File file2 = new File(listOfFiles.get(i).getParentFile() + "\\steam_pic_" + (i + 1) + "." + fileExtension);
 
 //                 Rename file (or directory)
                 boolean success = file.renameTo(file2);
