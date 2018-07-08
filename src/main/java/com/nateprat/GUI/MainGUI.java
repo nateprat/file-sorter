@@ -41,7 +41,7 @@ public class MainGUI extends JPanel {
     }
 
     public static void GUI() {
-        JFrame frame = new JFrame("Add AddTransactionGUI");
+        JFrame frame = new JFrame("File Renamer - NatePrat");
         frame.setContentPane(new MainGUI().mainPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();

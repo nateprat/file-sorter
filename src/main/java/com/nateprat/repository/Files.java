@@ -3,6 +3,7 @@ package com.nateprat.repository;
 import com.nateprat.AbstractMain;
 import com.nateprat.system.SortArray;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class Files extends AbstractMain {
 
             if (pictureFile) {
 
-                File file2 = new File(listOfFiles.get(i).getParentFile() + "\\" + prefix + (i + 1) + "." + fileExtension);
+                File file2 = new File(listOfFiles.get(i).getParentFile() + "\\" + prefix + "_" + (i + 1) + "." + fileExtension);
 
 //                 Rename file (or directory)
                 boolean success = file.renameTo(file2);
@@ -57,6 +58,7 @@ public class Files extends AbstractMain {
             }
 
         }
+
     }
 
     private String getFileType(File file){
