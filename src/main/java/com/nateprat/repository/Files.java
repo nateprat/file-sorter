@@ -1,16 +1,36 @@
 package com.nateprat.repository;
 
 import com.nateprat.AbstractMain;
+import com.nateprat.system.SortArray;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class RenameFiles extends AbstractMain {
+public class Files extends AbstractMain {
 
+    public static final String PICTURE_LOC = "D:\\Documents\\steam_picture test";
     private static String[] acceptedFileTypes = {"jpg", "png", "gif"};
+    private SortArray sortArray = new SortArray();
 
-    public void renameFiles() {
+
+    public ArrayList<File> getListOfFiles() {
+        return listOfFiles;
+    }
+
+    public void getSortedListOfFiles(String fileLoc, String order) {
+        File[] listOfFiles = sortArrayByLastModifiedDate(fileLoc, order);
+        ArrayList<File> arrayList = new ArrayList<>(Arrays.asList(listOfFiles));
+        AbstractMain.listOfFiles = arrayList;
+    }
+
+    private File[] sortArrayByLastModifiedDate(String fileLoc, String order) {
+        return sortArray.sortArray(fileLoc, order);
+    }
+
+    public void renameFiles(String prefix) {
         boolean pictureFile = false;
         for (int i = 0; i < listOfFiles.size(); i++) {
             // File (or directory) with old name
@@ -27,8 +47,7 @@ public class RenameFiles extends AbstractMain {
 
             if (pictureFile) {
 
-
-                File file2 = new File(listOfFiles.get(i).getParentFile() + "\\steam_pic_" + (i + 1) + "." + fileExtension);
+                File file2 = new File(listOfFiles.get(i).getParentFile() + "\\" + prefix + "_" + (i + 1) + "." + fileExtension);
 
 //                 Rename file (or directory)
                 boolean success = file.renameTo(file2);
@@ -39,14 +58,11 @@ public class RenameFiles extends AbstractMain {
             }
 
         }
+
     }
-
-
 
     private String getFileType(File file){
         return FilenameUtils.getExtension(file.getName());
     }
 
-
 }
-
