@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class Files extends AbstractMain {
 
     public static final String PICTURE_LOC = "D:\\Documents\\steam_picture test";
-    private static String[] acceptedFileTypes = {"jpg", "png", "gif"};
+    private ArrayList<String> acceptedFileTypes = new ArrayList<>();
     private SortArray sortArray = new SortArray();
 
 
@@ -20,27 +20,36 @@ public class Files extends AbstractMain {
         return AbstractMain.listOfFiles;
     }
 
-    public void getSortedListOfFiles(String fileLoc, String order) {
+    public void getSortedListOfFiles(String fileLoc, String order, String fileTypes) {
+        getAcceptedFileTypes(fileTypes);
         File[] listOfFiles = sortArrayByLastModifiedDate(fileLoc, order);
         ArrayList<File> arrayList = new ArrayList<>(Arrays.asList(listOfFiles));
         AbstractMain.listOfFiles = arrayList;
     }
 
     private File[] sortArrayByLastModifiedDate(String fileLoc, String order) {
-        return sortArray.sortArray(fileLoc, order);
+        return sortArray.sortArray(fileLoc, order, acceptedFileTypes);
+    }
+
+    public void getAcceptedFileTypes(String fileTypes) {
+        acceptedFileTypes.clear();
+        String[] fileType = fileTypes.split(",");
+        for (String type: fileType) {
+            acceptedFileTypes.add(type);
+        }
     }
 
     public void renameFiles(String prefix) {
-        boolean pictureFile = false;
         for (int i = 0; i < listOfFiles.size(); i++) {
+            boolean pictureFile = false;
             // File (or directory) with old name
             File file = new File(listOfFiles.get(i).getPath());
 
             // File (or directory) with new name
             String fileExtension = getFileType(file);
 
-            for (int j = 0; j < acceptedFileTypes.length; j++) {
-                if (fileExtension.equalsIgnoreCase(acceptedFileTypes[j])) {
+            for (int j = 0; j < acceptedFileTypes.size(); j++) {
+                if (fileExtension.equalsIgnoreCase(acceptedFileTypes.get(j))) {
                     pictureFile = true;
                 }
             }
@@ -59,10 +68,6 @@ public class Files extends AbstractMain {
 
         }
 
-    }
-
-    private String getFileType(File file){
-        return FilenameUtils.getExtension(file.getName());
     }
 
 }

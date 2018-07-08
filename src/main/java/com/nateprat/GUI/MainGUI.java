@@ -17,8 +17,9 @@ public class MainGUI extends JPanel {
     private JPanel mainPanel;
     private JButton selectDirectoryButton;
     private JTextField directoryTextField;
-    JFileChooser chooser;
-    String choosertitle;
+    private JTextField fileTypeTextField;
+    private JFileChooser chooser;
+    private String choosertitle;
     private static final Files files = new Files();
 
 
@@ -38,23 +39,28 @@ public class MainGUI extends JPanel {
                 String directory = directoryTextField.getText();
                 String prefix = stringFormatTextField.getText();
                 String order = comboBox1.getSelectedItem().toString();
+                String fileTypes = fileTypeTextField.getText();
                     try {
                         if (directory.trim().length() != 0) {
                             File file = new File(directory);
                             if (file.isDirectory()) {
                                 if (prefix.trim().length() != 0) {
-                                    files.getSortedListOfFiles(directory, order);
-                                    if (Notification.showConfirmation("Are you sure you want to change " + files.getListOfFiles().size()
-                                            + " files in '" + directory + "'")) {
-                                        files.renameFiles(prefix);
-                                        Notification.showNotification("renamed " + files.getListOfFiles().size() + " files in '" + directory
-                                        + "'");
-                                    }
+                                    files.getSortedListOfFiles(directory, order, fileTypes);
+                                    if (!(fileTypes.equalsIgnoreCase("") || fileTypes == null)) {
+                                        files.getAcceptedFileTypes(fileTypeTextField.getText());
+                                        if (Notification.showConfirmation("Are you sure you want to change " + files.getListOfFiles().size()
+                                                + " files in '" + directory + "'")) {
+                                            files.renameFiles(prefix);
+                                            Notification.showNotification("renamed " + files.getListOfFiles().size() + " files in '" + directory
+                                                    + "'");
+                                        }
+                                    } else throw new Exception("File type must not be empty");
                                 } else throw new Exception("Prefix must not be empty");
                             } else throw new Exception("Directory not found: " + directory);
                         } else throw new Exception("Directory should not be empty");
                     } catch (Exception ex) {
                         Notification.createWarning(ex.getLocalizedMessage());
+                        ex.printStackTrace();
                     }
                 }
         });
