@@ -38,20 +38,25 @@ public class MainGUI extends JPanel {
                 String directory = directoryTextField.getText();
                 String prefix = stringFormatTextField.getText();
                 String order = comboBox1.getSelectedItem().toString();
-                try {
-                    if (directory.trim().length() != 0) {
-                        File file = new File(directory);
-                        if (file.isDirectory()) {
-                            if (prefix.trim().length() != 0) {
-                                files.getSortedListOfFiles(directory, order);
-                                files.renameFiles(prefix);
-                            } else throw new Exception("Prefix must not be empty");
-                        } else throw new Exception("Directory not found: " + directory);
-                    } else throw new Exception("Directory should not be empty");
-                } catch (Exception ex){
-                    Warning.createWarning(ex.getLocalizedMessage());
+                    try {
+                        if (directory.trim().length() != 0) {
+                            File file = new File(directory);
+                            if (file.isDirectory()) {
+                                if (prefix.trim().length() != 0) {
+                                    files.getSortedListOfFiles(directory, order);
+                                    if (Notification.showConfirmation("Are you sure you want to change " + files.getListOfFiles().size()
+                                            + " files in '" + directory + "'")) {
+                                        files.renameFiles(prefix);
+                                        Notification.showNotification("renamed " + files.getListOfFiles().size() + " files in '" + directory
+                                        + "'");
+                                    }
+                                } else throw new Exception("Prefix must not be empty");
+                            } else throw new Exception("Directory not found: " + directory);
+                        } else throw new Exception("Directory should not be empty");
+                    } catch (Exception ex) {
+                        Notification.createWarning(ex.getLocalizedMessage());
+                    }
                 }
-            }
         });
     }
 

@@ -17,7 +17,7 @@ public class Files extends AbstractMain {
 
 
     public ArrayList<File> getListOfFiles() {
-        return listOfFiles;
+        return AbstractMain.listOfFiles;
     }
 
     public void getSortedListOfFiles(String fileLoc, String order) {
