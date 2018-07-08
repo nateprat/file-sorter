@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 public class MainGUI extends JPanel {
     private JComboBox comboBox1;
@@ -34,8 +35,22 @@ public class MainGUI extends JPanel {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                files.getSortedListOfFiles(directoryTextField.getText(), comboBox1.getSelectedItem().toString());
-                files.renameFiles(stringFormatTextField.getText());
+                String directory = directoryTextField.getText();
+                String prefix = stringFormatTextField.getText();
+                String order = comboBox1.getSelectedItem().toString();
+                try {
+                    if (directory.trim().length() != 0) {
+                        File file = new File(directory);
+                        if (file.isDirectory()) {
+                            if (prefix.trim().length() != 0) {
+                                files.getSortedListOfFiles(directory, order);
+                                files.renameFiles(prefix);
+                            } else throw new Exception("Prefix must not be empty");
+                        } else throw new Exception("Directory not found: " + directory);
+                    } else throw new Exception("Directory should not be empty");
+                } catch (Exception ex){
+                    Warning.createWarning(ex.getLocalizedMessage());
+                }
             }
         });
     }
