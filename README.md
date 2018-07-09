@@ -1,2 +1,2 @@
 Download Link to lastest version
-https://drive.google.com/open?id=1rOqUR3Sm7dtE4OZo7OllPmSswg9Nn6XC
+https://www.dropbox.com/s/v0s7t9w037sdt7b/steam_profile_picture_renamer.jar?dl=0
