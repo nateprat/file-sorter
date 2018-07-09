@@ -2,38 +2,41 @@ package com.nateprat.system;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-import com.nateprat.repository.Files;
+import com.nateprat.AbstractMain;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.FileFileFilter;
 
-public class SortArray {
+public class SortArray extends AbstractMain {
 
-    public File[] sortArray(String fileLoc, String order) {
+    public File[] sortArray(String fileLoc, String order, ArrayList<String> fileTypes) {
         File directory = new File(fileLoc);
         // get just files, not directories
         File[] files = directory.listFiles((FileFilter) FileFileFilter.FILE);
 
+        File[] sortedFiles = sortByFileExtension(files, fileTypes);
+
         if(order.equalsIgnoreCase("default")) {
             System.out.println("Default order");
-            displayFiles(files);
+            displayFiles(sortedFiles);
         }
 
         if(order.equalsIgnoreCase("ascending")) {
-            Arrays.sort(files, LastModifiedFileComparator.LASTMODIFIED_COMPARATOR);
+            Arrays.sort(sortedFiles, LastModifiedFileComparator.LASTMODIFIED_COMPARATOR);
             System.out.println("\nLast Modified Ascending Order (LASTMODIFIED_COMPARATOR)");
-            displayFiles(files);
+            displayFiles(sortedFiles);
         }
 
         if (order.equalsIgnoreCase("descending")) {
-            Arrays.sort(files, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
+            Arrays.sort(sortedFiles, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
             System.out.println("\nLast Modified Descending Order (LASTMODIFIED_REVERSE)");
-            displayFiles(files);
+            displayFiles(sortedFiles);
         }
 
-        return files;
+        return sortedFiles;
 
     }
 
@@ -43,4 +46,22 @@ public class SortArray {
         }
     }
 
+    private File[] sortByFileExtension(File[] listOfFiles, ArrayList<String> fileTypes) {
+        File[] newFiles = {};
+        for (File file: listOfFiles) {
+            for (String type: fileTypes) {
+                if (getFileType(file).equalsIgnoreCase(type) || type.equalsIgnoreCase("all")) {
+                    newFiles = addElement(newFiles, file);
+                }
+            }
+        }
+        return newFiles;
+    }
+
+
+    private static File[] addElement(File[] a, File e) {
+        a  = Arrays.copyOf(a, a.length + 1);
+        a[a.length - 1] = e;
+        return a;
+    }
 }
