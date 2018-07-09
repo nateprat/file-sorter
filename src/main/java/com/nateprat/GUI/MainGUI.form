@@ -31,7 +31,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value=""/>
+              <text value="Prefix"/>
             </properties>
           </component>
         </children>
@@ -53,6 +53,7 @@
             <properties>
               <editable value="true"/>
               <enabled value="true"/>
+              <text value="Directory Path"/>
             </properties>
           </component>
         </children>
@@ -101,7 +102,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="File Extensions"/>
+        </properties>
       </component>
     </children>
   </grid>

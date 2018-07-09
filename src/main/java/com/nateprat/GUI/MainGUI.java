@@ -4,10 +4,7 @@ import com.nateprat.repository.Files;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 
 public class MainGUI extends JPanel {
@@ -40,31 +37,88 @@ public class MainGUI extends JPanel {
                 String prefix = stringFormatTextField.getText();
                 String order = comboBox1.getSelectedItem().toString();
                 String fileTypes = fileTypeTextField.getText();
-                    try {
-                        if (directory.trim().length() != 0) {
-                            File file = new File(directory);
-                            if (file.isDirectory()) {
-                                if (prefix.trim().length() != 0) {
-                                    files.getSortedListOfFiles(directory, order, fileTypes);
-                                    if (!(fileTypes.equalsIgnoreCase("") || fileTypes == null)) {
-                                        files.getAcceptedFileTypes(fileTypeTextField.getText());
-                                        if (Notification.showConfirmation("Are you sure you want to change " + files.getListOfFiles().size()
-                                                + " files in '" + directory + "'")) {
-                                            files.renameFiles(prefix);
-                                            Notification.showNotification("renamed " + files.getListOfFiles().size() + " files in '" + directory
-                                                    + "'");
-                                        }
-                                    } else throw new Exception("File type must not be empty");
-                                } else throw new Exception("Prefix must not be empty");
-                            } else throw new Exception("Directory not found: " + directory);
-                        } else throw new Exception("Directory should not be empty");
-                    } catch (Exception ex) {
-                        Notification.createWarning(ex.getLocalizedMessage());
-                        ex.printStackTrace();
-                    }
+                try {
+                    if (directory.trim().length() != 0) {
+                        File file = new File(directory);
+                        if (file.isDirectory()) {
+                            if (prefix.trim().length() != 0) {
+                                files.getSortedListOfFiles(directory, order, fileTypes);
+                                if (!(fileTypes.equalsIgnoreCase("") || fileTypes == null)) {
+                                    files.getAcceptedFileTypes(fileTypeTextField.getText());
+                                    if (Notification.showConfirmation("Are you sure you want to change " + files.getListOfFiles().size()
+                                            + " files in '" + directory + "'")) {
+                                        files.renameFiles(prefix);
+                                        Notification.showNotification("renamed " + files.getListOfFiles().size() + " files in '" + directory
+                                                + "'");
+                                    }
+                                } else throw new Exception("File type must not be empty");
+                            } else throw new Exception("Prefix must not be empty");
+                        } else throw new Exception("Directory not found: " + directory);
+                    } else throw new Exception("Directory should not be empty");
+                } catch (Exception ex) {
+                    Notification.createWarning(ex.getLocalizedMessage());
+                    ex.printStackTrace();
                 }
+            }
+        });
+        directoryTextField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+                focusGainedDisplay(directoryTextField, "Directory Path");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
+                focusLostDisplay(directoryTextField, "Directory Path");
+            }
+        });
+        fileTypeTextField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+                focusGainedDisplay(fileTypeTextField, "File Extensions");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
+                focusLostDisplay(fileTypeTextField, "File Extensions");
+            }
+        });
+        stringFormatTextField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+                focusGainedDisplay(stringFormatTextField, "Prefix");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
+                focusLostDisplay(stringFormatTextField, "Prefix");
+            }
         });
     }
+
+
+    private void focusGainedDisplay(JTextField field, String fieldName) {
+        if (field.getText().equals(fieldName)) {
+            field.setText("");
+            field.setForeground(Color.BLACK);
+        } else {
+            field.selectAll();
+        }
+    }
+
+    private void focusLostDisplay(JTextField field, String fieldName) {
+        if (field.getText().isEmpty()) {
+            field.setForeground(Color.GRAY);
+            field.setText(fieldName);
+        }
+    }
+
 
     public static void GUI() {
         JFrame frame = new JFrame("Mass Picture Re-namer");

@@ -50,7 +50,7 @@ public class SortArray extends AbstractMain {
         File[] newFiles = {};
         for (File file: listOfFiles) {
             for (String type: fileTypes) {
-                if (getFileType(file).equalsIgnoreCase(type)) {
+                if (getFileType(file).equalsIgnoreCase(type) || type.equalsIgnoreCase("all")) {
                     newFiles = addElement(newFiles, file);
                 }
             }

@@ -48,10 +48,14 @@ public class Files extends AbstractMain {
             // File (or directory) with new name
             String fileExtension = getFileType(file);
 
-            for (int j = 0; j < acceptedFileTypes.size(); j++) {
-                if (fileExtension.equalsIgnoreCase(acceptedFileTypes.get(j))) {
-                    pictureFile = true;
+            if(!acceptedFileTypes.get(0).equalsIgnoreCase("all")) {
+                for (int j = 0; j < acceptedFileTypes.size(); j++) {
+                    if (fileExtension.equalsIgnoreCase(acceptedFileTypes.get(j))) {
+                        pictureFile = true;
+                    }
                 }
+            } else {
+                pictureFile = true;
             }
 
             if (pictureFile) {
